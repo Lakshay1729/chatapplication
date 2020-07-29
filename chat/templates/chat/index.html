@@ -1,0 +1,71 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>Chat Rooms</title>
+    <link rel="shortcut icon" href="">
+</head>
+<body
+style="background-image: linear-gradient(to right,rgb(50, 54, 50),rgb(134, 128, 129));
+width: auto;
+padding: 70px 0;
+height: auto;">
+    <div style="
+     margin: auto;
+     width: 50%;
+ border-radius: 10px;
+     padding: 20px;
+     border:none;
+     box-shadow: rgba(54, 59, 56, 0.014);
+     width: 600px;
+     background: mediumseagreen;
+     border-style: hidden; 
+     
+     ">
+        {% csrf_token %}
+        What chat room would you like to enter?<br><br>
+    <input id="room-name-input" type="text" size="80" placeholder="Room Name" style="padding-left: 10px; border-radius: 4px;
+    text-justify: newspaper;
+    background-color: rgba(255, 99, 71, 0.5);"><br><br>
+    Enter Your Username<br><br>
+    <input id="user-name-input" type="text" size="80" name='username' placeholder="Username" style=" border-radius: 4px;
+    padding-left: 10px;
+    text-justify: newspaper;
+    background-color: rgba(255, 99, 71, 0.5);"><br><br>
+    <input id="room-name-submit" type="button" value="Enter" style="align-self: center;
+    border-radius: 6px;
+    border-style: hidden;
+    background-image: linear-gradient(to right,rgb(4, 88, 99),rgb(26, 182, 243));
+    color:#fdfafa;
+    height:30px;
+    width: 20%;
+    text-align: center;
+    margin: auto;">
+</div>
+    <script>
+        document.querySelector('#room-name-input').focus();
+        document.querySelector('#room-name-input').onkeyup = function(e) {
+            if (e.keyCode === 13) {  // enter, return
+                document.querySelector('#user-name-input').focus();
+            }
+        };
+        document.querySelector('#user-name-input').onkeyup=function(e) {
+            if (e.keyCode === 13) {  // enter, return
+                document.querySelector('#room-name-submit').click();
+            }
+        };
+
+        document.querySelector('#room-name-submit').onclick = function(e) {
+            var roomName = document.querySelector('#room-name-input').value;
+            var username=document.querySelector('#user-name-input').value;
+            if((username.value!==null)&&(roomName.value!==null)){
+            window.location.pathname = '/chat/' + roomName +'/'+username+"/"
+            }
+            else{
+                alert("Please enter details first");
+            }
+        };
+    </script>
+</body>
+</html>

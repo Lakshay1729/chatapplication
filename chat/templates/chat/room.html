@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>Chat Room</title>
+    <link rel="shortcut icon" href="">
+</head>
+<body style="background-image: linear-gradient(to right,rgb(50, 54, 50),rgb(134, 128, 129));
+width: auto;
+height: auto;">
+    <div style= "
+    margin: auto;
+    width: 50%;
+
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: rgba(54, 59, 56, 0.014);
+    width: 600px;
+    background: mediumseagreen;
+    border-style: hidden; 
+    border-width: 0px;
+   " >
+    <h2> Chat Log:</h2>
+    <textarea id="chat-log" cols="70" rows="100"  style="padding: 20px;border-width: .2px;
+    scroll-behavior: smooth; height: 200px;
+    row-gap: 10px;
+   vertical-align:bottom ;
+ color: #fdfdfd;
+ 
+    padding: 20px;
+    border-radius: 4px;
+    text-justify: newspaper;
+    background-color: rgba(255, 99, 71, 0.5);" disabled ></textarea><br>
+    <h3>
+        Type your message:
+    </h3>
+    <input id="chat-message-input" type="text" size="100" style="padding: 20px;border-width: .2px;
+    text-justify: newspaper; border-radius: 4px;
+    margin: auto;
+    color: #fdfdfd;
+  width: 50%;
+ 
+    background-color: rgba(255, 99, 71, 0.5);" placeholder="Enter Your text here" ><br><br>
+    <input id="chat-message-submit" type="button" value="Send"  style="
+    background-image: linear-gradient(to right,rgb(4, 88, 99),rgb(26, 182, 243));
+    color: #fdfdfd;
+    border-radius: 6px;
+    margin: auto;
+    height: 30px;
+  width: 20%;
+  border-style: hidden;
+    color:#fdfdfd">
+</div>
+    {{ room_name|json_script:"room-name" }}
+    {{ user_name|json_script:"user-name" }}
+    <script>
+        const roomName = JSON.parse(document.getElementById('room-name').textContent);
+        const username=  JSON.parse(document.getElementById('user-name').textContent);
+
+        var chatSocket = new WebSocket(
+            'ws://'
+            + window.location.host
+            + '/ws/chat/'
+            + roomName
+            + '/'
+            + username
+            + '/'
+        );
+
+        chatSocket.onopen=function(e){
+            const data = JSON.parse(e.data);
+             document.querySelector('#chat-log').value+=(data.message.split(":",1)+" has joined.\n\n");
+             
+        };
+        
+        chatSocket.onmessage = function(e) {
+            const data = JSON.parse(e.data);
+            document.querySelector('#chat-log').value += (data.message +'\n\n');
+            // if(flag)
+            // document.querySelector('#chat-log').setAttribute("align-text","end");
+            // else
+
+            console.log("Success")
+        };
+
+        chatSocket.onclose = function(e) {
+            const data = JSON.parse(e.data);
+             document.querySelector('#chat-log').value+=(data.username+" has left.\n\n");
+            console.error('Chat socket closed unexpectedly');
+        };
+
+        
+        document.querySelector('#chat-message-input').focus();
+        document.querySelector('#chat-message-input').onkeyup = function(e) {
+            if (e.keyCode === 13) {  // enter, return
+                document.querySelector('#chat-message-submit').click();
+            }
+        };
+
+        document.querySelector('#chat-message-submit').onclick = function(e) {
+            const messageInputDom = document.querySelector('#chat-message-input');
+          
+            const message = messageInputDom.value;
+            chatSocket.send(JSON.stringify({
+                'message': message
+            }));
+            messageInputDom.value = '';
+        };
+    </script>
+</body>
+</html>
