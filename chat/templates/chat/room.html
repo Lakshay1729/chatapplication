@@ -58,7 +58,7 @@ height: auto;">
         const username=  JSON.parse(document.getElementById('user-name').textContent);
 
         var chatSocket = new WebSocket(
-            'ws://'
+            'wss://'
             + window.location.host
             + '/ws/'
             + roomName
