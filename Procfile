@@ -1,2 +1,2 @@
-web: gunicorn mysite.wsgi --log-file - & daphne  mysite.asgi:
+web: gunicorn mysite.wsgi --log-file - & daphne  mysite.asgi
 
