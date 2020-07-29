@@ -57,21 +57,26 @@ height: auto;">
         const roomName = JSON.parse(document.getElementById('room-name').textContent);
         const username=  JSON.parse(document.getElementById('user-name').textContent);
 
+        var loc = window.location;
+var wsStart = 'ws://';
+if (loc.protocol == 'https:') {
+     wsStart = 'wss://'
+}
         var chatSocket = new WebSocket(
-            'wss://'
+            wsStart
             + window.location.host
-            + '/wss/'
+            + '/ws/'
             + roomName
             + '/'
             + username
             + '/'
         );
 
-        chatSocket.onopen=function(e){
-            const data = JSON.parse(e.data);
-             document.querySelector('#chat-log').value+=(data.message.split(":",1)+" has joined.\n\n");
+        // chatSocket.onopen=function(e){
+        //     const data = JSON.parse(e.data);
+        //      document.querySelector('#chat-log').value+=(data.message.split(":",1)+" has joined.\n\n");
              
-        };
+        // };
         
         chatSocket.onmessage = function(e) {
             const data = JSON.parse(e.data);
