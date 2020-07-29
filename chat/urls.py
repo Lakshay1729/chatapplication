@@ -7,4 +7,4 @@ app_name='chat'
 urlpatterns = [
     path('', views.index, name='index'),
     path('<str:room_name>/<str:user_name>/', views.room, name='room'),
-]+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+]

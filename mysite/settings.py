@@ -23,7 +23,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'w2tzpmhb@cpel(k33sght46ex3d9+8iq!0gud-in%79hj-d_%g'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['*']
 
@@ -134,11 +134,4 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
-STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(PROJECT_ROOT, 'static')
-# STATICFILES_DIRS = [ os.path.join(BASE_DIR, "static"),
-#     '/chat/static/',
-# ]
-  
-# django_heroku.settings(locals())
-# DATABASES['default'] = dj_database_url.config(conn_max_age=600, ssl_require=True)
+
